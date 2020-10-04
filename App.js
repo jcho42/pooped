@@ -14,9 +14,10 @@ import {
   AddData,
 } from './src/screens';
 import { firebase } from './src/firebase/config';
-import { Text, View, Button } from 'react-native';
+import { Text, View, Button, LogBox } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+// LogBox.ignoreAllLogs()
 
 const Stack = createStackNavigator();
 const Tab = createMaterialTopTabNavigator();
@@ -71,7 +72,7 @@ export default function App() {
                 headerTitleAlign: 'left',
                 headerRight: () => (
                   <Button
-                    onPress={() => navigation.navigate('AddData')}
+                    onPress={() => navigation.navigate('AddData', {user})}
                     title="Add Data"
                     color="#000"
                   />
@@ -86,9 +87,7 @@ export default function App() {
                     style: { backgroundColor: 'powderblue' },
                   }}
                 >
-                  <Tab.Screen name="Today">
-                    {(props) => <TodayScreen {...props} extraData={user} />}
-                  </Tab.Screen>
+                  <Tab.Screen name="Today" component={TodayScreen} />
                   <Tab.Screen name="Week" component={WeekScreen} />
                   <Tab.Screen name="Month" component={MonthScreen} />
                   <Tab.Screen name="Year" component={YearScreen} />

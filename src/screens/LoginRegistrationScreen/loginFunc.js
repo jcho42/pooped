@@ -12,7 +12,7 @@ export const login = (email, password, navigation) => {
         .get()
         .then((firestoreDocument) => {
           if (!firestoreDocument.exists) {
-            alert('User does not exist anymore.');
+            alert('User does not exist???');
             return;
           }
           const user = firestoreDocument.data();

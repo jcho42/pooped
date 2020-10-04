@@ -1,6 +1,6 @@
 import { firebase } from '../../firebase/config';
 
-export const register = (fullName, email, password, confirmPassword, navigation) => {
+export const register = (fullName, email, password, confirmPassword) => {
   if (password !== confirmPassword) {
     alert("Passwords don't match.");
     return;
