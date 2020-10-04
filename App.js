@@ -10,9 +10,11 @@ import {
   MonthScreen,
   YearScreen,
   UserScreen,
+  Icon,
+  AddData,
 } from './src/screens';
 import { firebase } from './src/firebase/config';
-import { Text, View } from 'react-native';
+import { Text, View, Button } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
@@ -58,33 +60,51 @@ export default function App() {
   }
 
   return (
-    <SafeAreaProvider>
-      <NavigationContainer>
+    <NavigationContainer>
+      <Stack.Navigator>
         {user ? (
-          <Stack.Navigator>
-            <Tab.Navigator
-              tabBarOptions={{
-                labelStyle: { fontSize: 12 },
-                tabStyle: { width: 100 },
-                style: { backgroundColor: 'powderblue' },
-              }}
+          <>
+            <Stack.Screen
+              name="Pooped"
+              options={({navigation}) => ({
+                headerLeft: () => <Icon />,
+                headerTitleAlign: 'left',
+                headerRight: () => (
+                  <Button
+                    onPress={() => navigation.navigate('AddData')}
+                    title="Add Data"
+                    color="#000"
+                  />
+                ),
+              })}
             >
-              <Tab.Screen name="Today">
-                {(props) => <TodayScreen {...props} extraData={user} />}
-              </Tab.Screen>
-              <Tab.Screen name="Week" component={WeekScreen} />
-              <Tab.Screen name="Month" component={MonthScreen} />
-              <Tab.Screen name="Year" component={YearScreen} />
-              <Tab.Screen name="User" component={UserScreen} />
-            </Tab.Navigator>
-          </Stack.Navigator>
+              {() => (
+                <Tab.Navigator
+                  tabBarOptions={{
+                    labelStyle: { fontSize: 12 },
+                    tabStyle: { width: 75 },
+                    style: { backgroundColor: 'powderblue' },
+                  }}
+                >
+                  <Tab.Screen name="Today">
+                    {(props) => <TodayScreen {...props} extraData={user} />}
+                  </Tab.Screen>
+                  <Tab.Screen name="Week" component={WeekScreen} />
+                  <Tab.Screen name="Month" component={MonthScreen} />
+                  <Tab.Screen name="Year" component={YearScreen} />
+                  <Tab.Screen name="User" component={UserScreen} />
+                </Tab.Navigator>
+              )}
+            </Stack.Screen>
+            <Stack.Screen name="AddData" component={AddData} />
+          </>
         ) : (
-          <Stack.Navigator>
+          <>
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Registration" component={RegistrationScreen} />
-          </Stack.Navigator>
+          </>
         )}
-      </NavigationContainer>
-    </SafeAreaProvider>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
