@@ -87,11 +87,21 @@ export default function App() {
                     style: { backgroundColor: 'powderblue' },
                   }}
                 >
-                  <Tab.Screen name="Today" component={TodayScreen} />
-                  <Tab.Screen name="Week" component={WeekScreen} />
-                  <Tab.Screen name="Month" component={MonthScreen} />
-                  <Tab.Screen name="Year" component={YearScreen} />
-                  <Tab.Screen name="User" component={UserScreen} />
+                  <Tab.Screen name="Today">
+                    {props => <TodayScreen {...props} user={user} />}
+                  </Tab.Screen>
+                  <Tab.Screen name="Week">
+                    {props => <WeekScreen {...props} user={user} />}
+                  </Tab.Screen>
+                  <Tab.Screen name="Month">
+                    {props => <MonthScreen {...props} user={user} />}
+                  </Tab.Screen>
+                  <Tab.Screen name="Year">
+                    {props => <YearScreen {...props} user={user} />}
+                  </Tab.Screen>
+                  <Tab.Screen name="User">
+                    {props => <UserScreen {...props} user={user} />}
+                  </Tab.Screen>
                 </Tab.Navigator>
               )}
             </Stack.Screen>

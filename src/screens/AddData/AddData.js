@@ -5,7 +5,7 @@ import Picker from './Picker';
 import moment from 'moment';
 import { firebase } from '../../firebase/config';
 
-export default function AddData(props) {
+export default function AddData({route, navigation: { goBack }}) {
   const [date, setDate] = useState(moment().format('MM-DD-YYYY h:mm a'));
   const [type, setType] = useState('4');
   // const dateTime = moment(date, "MM-DD-YYYY h:mm a")
@@ -13,9 +13,20 @@ export default function AddData(props) {
   // console.log('moment(date) ---->', dateTime)
   // console.log('moment(date) ---->', dateTimeStr)
   // console.log('type ---->', type)
-  const addDataFireStore = () => {
-    const userId = props.route.params.user.id
 
+  const addDataFireStore = () => {
+    const userId = route.params.user.id
+    const dateObj = moment(date, "MM-DD-YYYY h:mm a").toDate()
+    const data = {userId, date: dateObj, type}
+    const poopEntry = firebase.firestore().collection('poopEntries')
+    poopEntry
+      .add(data)
+      .then(() => {
+        goBack()
+      })
+      .catch(() => {
+        alert('Access Denied!')
+      })
   };
 
   return (
