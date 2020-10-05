@@ -42,12 +42,12 @@ export default function MonthScreen(props) {
       );
   }, []);
 
-  console.log('monthEntries --->', monthEntries)
+  const screenTitle = moment().format("MMMM")
 
   return (
     <SafeAreaView>
       <View>
-        <Text>Month Screen</Text>
+        <Text>{screenTitle}</Text>
         <VictoryPie data={pieData} padding={100} colorScale="qualitative" labels={({datum}) => `${datum.x}\n(${datum.percent}%)`} />
       </View>
     </SafeAreaView>

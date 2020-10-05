@@ -42,12 +42,12 @@ export default function YearScreen(props) {
       );
   }, []);
 
-  console.log('yearEntries --->', yearEntries)
+  const screenTitle = moment().format("YYYY")
 
   return (
     <SafeAreaView>
       <View>
-        <Text>Year Screen</Text>
+        <Text>{screenTitle}</Text>
         <VictoryPie data={pieData} padding={100} colorScale="qualitative" labels={({datum}) => `${datum.x}\n(${datum.percent}%)`} />
       </View>
     </SafeAreaView>
