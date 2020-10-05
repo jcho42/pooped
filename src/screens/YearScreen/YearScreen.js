@@ -5,27 +5,16 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { firebase } from '../../firebase/config';
 import moment from 'moment'
 import { VictoryPie } from 'victory-native'
+import { percentage, typeCount } from '../utilFunc'
 
 export default function YearScreen(props) {
   const [yearEntries, setYearEntries] = useState([]);
 
-  const percentage = (type) => {
-    const count = typeCount(type)
-    return Math.round((count / yearEntries.length) * 100)
-  }
-
-  const typeCount = (type) => {
-    return yearEntries.reduce((a,c) => {
-      if (c.type === type) return a + 1
-      return a
-    }, 0)
-  }
-
   const pieData = yearEntries.map(entry => {
     const newEntry = {}
     newEntry.x = `Type ${entry.type}`
-    newEntry.y = typeCount(entry.type)
-    newEntry.percent = percentage(entry.type)
+    newEntry.y = typeCount(yearEntries, entry.type)
+    newEntry.percent = percentage(yearEntries, entry.type)
     return newEntry
   })
 

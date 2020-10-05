@@ -5,21 +5,16 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { firebase } from '../../firebase/config';
 import moment from 'moment';
 import { VictoryPie } from 'victory-native';
+import { percentage, typeCount } from '../utilFunc'
 
 export default function WeekScreen(props) {
   const [weekEntries, setWeekEntries] = useState([]);
 
-  const typeCount = (type) => {
-    return weekEntries.reduce((a, c) => {
-      if (c.type === type) return a + 1;
-      return a;
-    }, 0);
-  };
-
   const pieData = weekEntries.map((entry) => {
     const newEntry = {};
     newEntry.x = `Type ${entry.type}`;
-    newEntry.y = typeCount(entry.type);
+    newEntry.y = typeCount(weekEntries, entry.type);
+    newEntry.percent = percentage(weekEntries, entry.type)
     return newEntry;
   });
 
@@ -54,7 +49,7 @@ export default function WeekScreen(props) {
     <SafeAreaView>
       <View>
         <Text>Week Screen</Text>
-        <VictoryPie data={pieData} padding={100} colorScale="qualitative" />
+        <VictoryPie data={pieData} padding={100} colorScale="qualitative" labels={({datum}) => `${datum.x}\n(${datum.percent}%)`} />
       </View>
     </SafeAreaView>
   );

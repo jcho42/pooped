@@ -5,21 +5,16 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { firebase } from '../../firebase/config';
 import moment from 'moment'
 import { VictoryPie } from 'victory-native'
+import { percentage, typeCount } from '../utilFunc'
 
 export default function MonthScreen(props) {
   const [monthEntries, setMonthEntries] = useState([]);
 
-  const typeCount = (type) => {
-    return monthEntries.reduce((a,c) => {
-      if (c.type === type) return a + 1
-      return a
-    }, 0)
-  }
-
   const pieData = monthEntries.map(entry => {
     const newEntry = {}
     newEntry.x = `Type ${entry.type}`
-    newEntry.y = typeCount(entry.type)
+    newEntry.y = typeCount(monthEntries, entry.type)
+    newEntry.percent = percentage(monthEntries, entry.type)
     return newEntry
   })
 
@@ -53,7 +48,7 @@ export default function MonthScreen(props) {
     <SafeAreaView>
       <View>
         <Text>Month Screen</Text>
-        <VictoryPie data={pieData} padding={100} colorScale="qualitative" />
+        <VictoryPie data={pieData} padding={100} colorScale="qualitative" labels={({datum}) => `${datum.x}\n(${datum.percent}%)`} />
       </View>
     </SafeAreaView>
   );
