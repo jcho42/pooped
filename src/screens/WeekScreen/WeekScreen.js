@@ -10,41 +10,20 @@ import {
   VictoryBar,
   VictoryTheme,
 } from 'victory-native';
-import { percentage, typeCount, typeValue } from '../utilFunc';
+import { pieDataFunc, typeValueWeek } from '../utilFunc';
 
 export default function WeekScreen(props) {
   const [weekEntries, setWeekEntries] = useState([]);
 
-  const pieDataFunc = () => {
-    const obj = {}
-    weekEntries.forEach(entry => {
-      if (obj[entry.type]) {
-        obj[entry.type]++
-      } else {
-        obj[entry.type] = 1
-      }
-    })
-    return Object.keys(obj).map(key => {
-      const newEntry = {}
-      newEntry.x = `Type ${key}`
-      newEntry.y = obj[key]
-      newEntry.percent = percentage(weekEntries, key)
-      return newEntry
-    })
-  }
-
-  const pieData = pieDataFunc()
-  console.log('pieData --->', pieData)
+  const pieData = pieDataFunc(weekEntries)
 
   const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
   const barData = daysOfWeek.map(day => {
     const newEntry = {}
     newEntry.x = day
-    newEntry.y = typeValue(weekEntries, day)
+    newEntry.y = typeValueWeek(weekEntries, day)
     return newEntry
   })
-  console.log('barData ---->', barData)
-  console.log('weekEntries ---->', weekEntries)
 
   useEffect(() => {
     const entriesRef = firebase.firestore().collection('poopEntries');

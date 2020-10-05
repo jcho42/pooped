@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, ScrollView } from 'react-native';
 import styles from './styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { firebase } from '../../firebase/config';
 import moment from 'moment'
-import { VictoryPie } from 'victory-native'
-import { percentage, typeCount } from '../utilFunc'
+import { VictoryPie, VictoryChart, VictoryBar, VictoryTheme } from 'victory-native'
+import { pieDataFunc,typeValueYear } from '../utilFunc'
 
 export default function YearScreen(props) {
   const [yearEntries, setYearEntries] = useState([]);
 
-  const pieData = yearEntries.map(entry => {
+  const pieData = pieDataFunc(yearEntries)
+
+  const monthOfYear = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  const barData = monthOfYear.map(month => {
     const newEntry = {}
-    newEntry.x = `Type ${entry.type}`
-    newEntry.y = typeCount(yearEntries, entry.type)
-    newEntry.percent = percentage(yearEntries, entry.type)
+    newEntry.x = month
+    newEntry.y = typeValueYear(yearEntries, month)
     return newEntry
   })
 
@@ -46,10 +48,13 @@ export default function YearScreen(props) {
 
   return (
     <SafeAreaView>
-      <View>
+      <ScrollView>
         <Text>{screenTitle}</Text>
+        <VictoryChart theme={VictoryTheme.material} domainPadding={10}>
+          <VictoryBar style={{ data: { fill: '#c43a31' } }} data={barData} />
+        </VictoryChart>
         <VictoryPie data={pieData} padding={100} colorScale="qualitative" labels={({datum}) => `${datum.x}\n(${datum.percent}%)`} />
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }

@@ -25,8 +25,59 @@ export function typeCount(entries, type) {
   }, 0)
 }
 
-export const typeValue = (entries, day) => {
-  const filtered = entries.filter(entry => moment(entry.date, 'X').format("ddd") === day)
-  if (filtered.length) return +filtered[0].type
+export const pieDataFunc = (entries) => {
+  const obj = {}
+  entries.forEach(entry => {
+    if (obj[entry.type]) {
+      obj[entry.type]++
+    } else {
+      obj[entry.type] = 1
+    }
+  })
+  return Object.keys(obj).map(key => {
+    const newEntry = {}
+    newEntry.x = `Type ${key}`
+    newEntry.y = obj[key]
+    newEntry.percent = percentage(entries, key)
+    return newEntry
+  })
+}
+
+export const typeValueWeek = (entries, day) => {
+  const filtered = entries.filter(entry => {
+    return moment(entry.date.toDate()).format("ddd") === day
+  })
+  if (filtered.length) {
+    const sum = filtered.reduce((a,c) => {
+      return a + +c.type
+    }, 0)
+    return sum / filtered.length
+  }
+  else return null
+}
+
+export const typeValueMonth = (entries, day) => {
+  const filtered = entries.filter(entry => {
+    return moment(entry.date.toDate()).format("D") == day
+  })
+  if (filtered.length) {
+    const sum = filtered.reduce((a,c) => {
+      return a + +c.type
+    }, 0)
+    return sum / filtered.length
+  }
+  else return null
+}
+
+export const typeValueYear = (entries, month) => {
+  const filtered = entries.filter(entry => {
+    return moment(entry.date.toDate()).format("MMM") == month
+  })
+  if (filtered.length) {
+    const sum = filtered.reduce((a,c) => {
+      return a + +c.type
+    }, 0)
+    return sum / filtered.length
+  }
   else return null
 }

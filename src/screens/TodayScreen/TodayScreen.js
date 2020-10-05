@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, ScrollView } from 'react-native';
+import { Text, ScrollView, View } from 'react-native';
 import styles from './styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { firebase } from '../../firebase/config';
@@ -11,7 +11,7 @@ export default function TodayScreen(props) {
   useEffect(() => {
     const entriesRef = firebase.firestore().collection('poopEntries');
     const userId = props.user.id;
-    const startOfDay = moment().startOf('day').toDate()
+    const startOfDay = moment().startOf('day').toDate();
 
     entriesRef
       .where('userId', '==', userId)
@@ -32,15 +32,19 @@ export default function TodayScreen(props) {
       );
   }, []);
 
-  const screenTitle = moment(new Date()).format("dddd")
+  const screenTitle = moment(new Date()).format('dddd');
 
   return (
     <SafeAreaView>
       <ScrollView>
         {!dayEntries.length ? (
-          <Text>No Data Entries Today</Text>
+          <View style={styles.screenView}>
+            <Text style={styles.screenTitle}>No Data Entries Today</Text>
+          </View>
         ) : (
-          <Text>{screenTitle}</Text>
+          <View style={styles.screenView}>
+            <Text style={styles.screenTitle}>{screenTitle}</Text>
+          </View>
         )}
       </ScrollView>
     </SafeAreaView>
