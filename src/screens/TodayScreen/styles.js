@@ -12,6 +12,15 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
+  item: {
+    backgroundColor: '#65bdfc',
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
+  },
+  entry: {
+    fontSize: 20,
+  },
   container: {
     flex: 1,
     alignItems: 'center',

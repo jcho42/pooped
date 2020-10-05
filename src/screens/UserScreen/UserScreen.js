@@ -8,7 +8,6 @@ export default function TodayScreen(props) {
   return (
     <SafeAreaView>
       <View>
-        <Text>Today Screen</Text>
         <TouchableOpacity style={styles.button} onPress={() => logout()}>
           <Text>Logout</Text>
         </TouchableOpacity>

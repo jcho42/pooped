@@ -1,6 +1,16 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
+  screenView: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  screenTitle: {
+    fontSize: 20,
+    color: '#2e2e2d',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   container: {
     flex: 1,
     alignItems: 'center',

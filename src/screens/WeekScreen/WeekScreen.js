@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, ScrollView } from 'react-native';
+import { Text, ScrollView, View } from 'react-native';
 import styles from './styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { firebase } from '../../firebase/config';
@@ -15,15 +15,15 @@ import { pieDataFunc, typeValueWeek } from '../utilFunc';
 export default function WeekScreen(props) {
   const [weekEntries, setWeekEntries] = useState([]);
 
-  const pieData = pieDataFunc(weekEntries)
+  const pieData = pieDataFunc(weekEntries);
 
-  const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-  const barData = daysOfWeek.map(day => {
-    const newEntry = {}
-    newEntry.x = day
-    newEntry.y = typeValueWeek(weekEntries, day)
-    return newEntry
-  })
+  const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const barData = daysOfWeek.map((day) => {
+    const newEntry = {};
+    newEntry.x = day;
+    newEntry.y = typeValueWeek(weekEntries, day);
+    return newEntry;
+  });
 
   useEffect(() => {
     const entriesRef = firebase.firestore().collection('poopEntries');
@@ -55,18 +55,31 @@ export default function WeekScreen(props) {
   return (
     <SafeAreaView>
       <ScrollView>
-        <Text>
-          {screenStart} to {screenEnd}
-        </Text>
-        <VictoryChart theme={VictoryTheme.material} domainPadding={10}>
-          <VictoryBar style={{ data: { fill: '#c43a31' } }} data={barData} />
-        </VictoryChart>
-        <VictoryPie
-          data={pieData}
-          padding={100}
-          colorScale="qualitative"
-          labels={({ datum }) => `${datum.x}\n(${datum.percent}%)`}
-        />
+        {!weekEntries.length ? (
+          <View style={styles.screenView}>
+            <Text style={styles.screenTitle}>No Data Entries</Text>
+          </View>
+        ) : (
+          <View>
+            <View style={styles.screenView}>
+              <Text style={styles.screenTitle}>
+                {screenStart} to {screenEnd}
+              </Text>
+            </View>
+            <VictoryChart theme={VictoryTheme.material} domainPadding={10}>
+              <VictoryBar
+                style={{ data: { fill: '#c43a31' } }}
+                data={barData}
+              />
+            </VictoryChart>
+            <VictoryPie
+              data={pieData}
+              padding={100}
+              colorScale="qualitative"
+              labels={({ datum }) => `${datum.x}\n(${datum.percent}%)`}
+            />
+          </View>
+        )}
       </ScrollView>
     </SafeAreaView>
   );

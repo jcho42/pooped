@@ -17,7 +17,7 @@ import { firebase } from './src/firebase/config';
 import { Text, View, Button, LogBox } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-// LogBox.ignoreAllLogs()
+LogBox.ignoreAllLogs()
 
 const Stack = createStackNavigator();
 const Tab = createMaterialTopTabNavigator();
