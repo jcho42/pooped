@@ -9,6 +9,11 @@ The Pooped app allows a user to record and visualize their bowel movements to ke
 
 ## Screen Shots
 
+<img src="/assets/Login_screen-removebg.png" width="200" height="400" />
+<img src="/assets/Add_data_screen-removebg.png" width="200" height="400" />
+<img src="/assets/Week_screen-removebg.png" width="200" height="400" />
+<img src="/assets/Year_Screen-removebg.png" width="200" height="400" />
+
 ## Tech Stack
 
 This application was developed using React Native with Expo, Victory for data visualization, and Firebase to store your data.
