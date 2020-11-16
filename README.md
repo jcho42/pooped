@@ -17,4 +17,25 @@ The Pooped app allows a user to record and visualize their bowel movements to ke
 
 ## Tech Stack
 
-This application was developed using React Native with Expo, Victory for data visualization, and Firebase to store your data.
+This application was developed using React Native with Expo, Victory for data visualization, and Firebase to store the data.
+
+## Getting Started
+
+To test the app on your local machine, fork/clone the repo.
+
+### Intall Expo iOS Simulator
+- `npm install -g expo-cli`
+- Follow instructions to install the iOS simulator: https://docs.expo.io/workflow/ios-simulator/
+- `npm start` to start the Expo server
+- Open the app on the iOS simulator
+
+### Using the Pooped app
+- First, Login or Signup
+- Add new data by clicking the 'Add data' button on the top right of the screen
+- Select any of the tabs (Today, Week, Month, Year) to view data as a bar graph or pie chart
+- Select the User tab to logout
+
+## Acknowledgments
+
+- [React Native with Firebase](https://www.freecodecamp.org/news/react-native-firebase-tutorial/)
+
