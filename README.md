@@ -30,8 +30,10 @@ To test the app on your local machine, fork/clone the repo.
 - Open the app on the iOS simulator
 
 ### Using the Pooped app
-- First, Login or Signup
+- Create an account by signing up or login using your email and password
 - Add new data by clicking the 'Add data' button on the top right of the screen
+  - Choose the date and time (default is the current date and time)
+  - Choose the stool type (see the Bristol stool chart below)
 - Select any of the tabs (Today, Week, Month, Year) to view data as a bar graph or pie chart
 - Select the User tab to logout
 
