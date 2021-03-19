@@ -1,13 +1,13 @@
 import React from 'react';
-import { Picker } from '@react-native-community/picker';
+import { Picker } from '@react-native-picker/picker';
+import styles from './styles';
 
-export default function PickerFunc (props) {
-  const { type, setType } = props;
+export default function PickerFunc({ type, setType }) {
   return (
     <Picker
       selectedValue={type}
-      style={{ height: 200, width: 300 }}
-      onValueChange={(itemValue) => setType(itemValue)}
+      style={styles.typePicker}
+      onValueChange={itemValue => setType(itemValue)}
     >
       <Picker.Item label="Type 1" value="1" />
       <Picker.Item label="Type 2" value="2" />

@@ -17,7 +17,10 @@ import { firebase } from './src/firebase/config';
 import { Text, View, Button, LogBox } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-LogBox.ignoreAllLogs()
+LogBox.ignoreLogs([
+  'Setting a timer',
+  'VirtualizedLists should never be nested',
+]);
 
 const Stack = createStackNavigator();
 const Tab = createMaterialTopTabNavigator();
@@ -29,17 +32,17 @@ export default function App() {
   useEffect(() => {
     const usersRef = firebase.firestore().collection('users');
     // returns currently logged in user
-    firebase.auth().onAuthStateChanged((user) => {
+    firebase.auth().onAuthStateChanged(user => {
       if (user) {
         usersRef
           .doc(user.uid)
           .get()
-          .then((document) => {
+          .then(document => {
             const userData = document.data();
             setLoading(false);
             setUser(userData);
           })
-          .catch((error) => {
+          .catch(error => {
             console.error(error);
             setLoading(false);
           });
@@ -67,12 +70,12 @@ export default function App() {
           <>
             <Stack.Screen
               name="Pooped"
-              options={({navigation}) => ({
+              options={({ navigation }) => ({
                 headerLeft: () => <Icon />,
                 headerTitleAlign: 'left',
                 headerRight: () => (
                   <Button
-                    onPress={() => navigation.navigate('AddData', {user})}
+                    onPress={() => navigation.navigate('AddData', { user })}
                     title="Add Data"
                     color="#000"
                   />

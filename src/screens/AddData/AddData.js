@@ -4,30 +4,25 @@ import DateTime from './DateTime';
 import Picker from './Picker';
 import moment from 'moment';
 import { firebase } from '../../firebase/config';
-import styles from './styles'
+import styles from './styles';
 
-export default function AddData({route, navigation: { goBack }}) {
+export default function AddData({ route, navigation: { goBack } }) {
   const [date, setDate] = useState(moment().format('MM-DD-YYYY h:mm a'));
   const [type, setType] = useState('4');
-  // const dateTime = moment(date, "MM-DD-YYYY h:mm a")
-  // const dateTimeStr = moment(dateTime).format("h:mm a")
-  // console.log('moment(date) ---->', dateTime)
-  // console.log('moment(date) ---->', dateTimeStr)
-  // console.log('type ---->', type)
 
   const addDataFireStore = () => {
-    const userId = route.params.user.id
-    const dateObj = moment(date, "MM-DD-YYYY h:mm a").toDate()
-    const data = {userId, date: dateObj, type}
-    const poopEntry = firebase.firestore().collection('poopEntries')
+    const userId = route.params.user.id;
+    const dateObj = moment(date, 'MM-DD-YYYY h:mm a').toDate();
+    const data = { userId, date: dateObj, type };
+    const poopEntry = firebase.firestore().collection('poopEntries');
     poopEntry
       .add(data)
       .then(() => {
-        goBack()
+        goBack();
       })
       .catch(() => {
-        alert('Access Denied!')
-      })
+        alert('Access Denied!');
+      });
   };
 
   return (
@@ -35,7 +30,11 @@ export default function AddData({route, navigation: { goBack }}) {
       <View style={styles.container}>
         <DateTime date={date} setDate={setDate} />
         <Picker type={type} setType={setType} />
-        <TouchableOpacity style={styles.button} title="Add Data" onPress={addDataFireStore}>
+        <TouchableOpacity
+          style={styles.button}
+          title="Add Data"
+          onPress={addDataFireStore}
+        >
           <Text>Add Data</Text>
         </TouchableOpacity>
         <Image

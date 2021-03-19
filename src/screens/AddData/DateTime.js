@@ -1,34 +1,32 @@
-import React from 'react';
-import { View } from 'react-native';
-import DatePicker from 'react-native-datepicker';
+import React, { useState } from 'react';
+import { View, TouchableOpacity, Text } from 'react-native';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import moment from 'moment';
 import styles from './styles';
+import { FontAwesome } from '@expo/vector-icons';
 
-export default function DateTime(props) {
-  const { date, setDate } = props;
+export default function DateTime({ date, setDate }) {
+  const [isVisible, setIsVisible] = useState(false);
+
+  const showDatePicker = () => setIsVisible(true);
+  const hideDatePicker = () => setIsVisible(false);
+  const handleConfirm = date => {
+    setDate(moment(date).format('MM-DD-YYYY h:mm a'));
+    hideDatePicker();
+  };
+
   return (
-    <View >
-      <View>
-        <DatePicker
-          style={{ width: 300 }}
-          date={date}
-          mode="datetime"
-          format="MM-DD-YYYY h:mm a"
-          confirmBtnText="Confirm"
-          cancelBtnText="Cancel"
-          customStyles={{
-            dateIcon: {
-              position: 'absolute',
-              left: 0,
-              top: 4,
-              marginLeft: 0,
-            },
-            dateInput: {
-              marginLeft: 36,
-            },
-          }}
-          onDateChange={(date) => setDate(date)}
-        />
-      </View>
+    <View>
+      <TouchableOpacity style={styles.datePicker} onPress={showDatePicker}>
+        <FontAwesome name="calendar" size={24} color="black" />
+        <Text style={styles.datePickerText}>{date}</Text>
+      </TouchableOpacity>
+      <DateTimePickerModal
+        isVisible={isVisible}
+        mode="datetime"
+        onConfirm={handleConfirm}
+        onCancel={hideDatePicker}
+      />
     </View>
   );
 }
