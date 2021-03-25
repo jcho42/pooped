@@ -18,7 +18,7 @@ export default function WeekScreen(props) {
   const pieData = pieDataFunc(weekEntries);
 
   const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  const barData = daysOfWeek.map((day) => {
+  const barData = daysOfWeek.map(day => {
     const newEntry = {};
     newEntry.x = day;
     newEntry.y = typeValueWeek(weekEntries, day);
@@ -34,16 +34,16 @@ export default function WeekScreen(props) {
       .where('userId', '==', userId)
       .where('date', '>', startOfWeek)
       .onSnapshot(
-        (querySnapshot) => {
+        querySnapshot => {
           const newEntries = [];
-          querySnapshot.forEach((doc) => {
+          querySnapshot.forEach(doc => {
             const entry = doc.data();
             entry.id = doc.id;
             newEntries.push(entry);
           });
           setWeekEntries(newEntries);
         },
-        (error) => {
+        error => {
           console.log(error);
         }
       );

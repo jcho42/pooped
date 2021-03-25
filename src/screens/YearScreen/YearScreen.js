@@ -31,7 +31,7 @@ export default function YearScreen(props) {
     'Nov',
     'Dec',
   ];
-  const barData = monthOfYear.map((month) => {
+  const barData = monthOfYear.map(month => {
     const newEntry = {};
     newEntry.x = month;
     newEntry.y = typeValueYear(yearEntries, month);
@@ -47,16 +47,16 @@ export default function YearScreen(props) {
       .where('userId', '==', userId)
       .where('date', '>', startOfYear)
       .onSnapshot(
-        (querySnapshot) => {
+        querySnapshot => {
           const newEntries = [];
-          querySnapshot.forEach((doc) => {
+          querySnapshot.forEach(doc => {
             const entry = doc.data();
             entry.id = doc.id;
             newEntries.push(entry);
           });
           setYearEntries(newEntries);
         },
-        (error) => {
+        error => {
           console.log(error);
         }
       );

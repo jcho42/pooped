@@ -18,9 +18,39 @@ export default function MonthScreen(props) {
   const pieData = pieDataFunc(monthEntries);
 
   const daysOfMonth = [
-    1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
   ];
-  const barData = daysOfMonth.map((day) => {
+  const barData = daysOfMonth.map(day => {
     const newEntry = {};
     newEntry.x = day;
     newEntry.y = typeValueMonth(monthEntries, day);
@@ -36,16 +66,16 @@ export default function MonthScreen(props) {
       .where('userId', '==', userId)
       .where('date', '>', startOfMonth)
       .onSnapshot(
-        (querySnapshot) => {
+        querySnapshot => {
           const newEntries = [];
-          querySnapshot.forEach((doc) => {
+          querySnapshot.forEach(doc => {
             const entry = doc.data();
             entry.id = doc.id;
             newEntries.push(entry);
           });
           setMonthEntries(newEntries);
         },
-        (error) => {
+        error => {
           console.log(error);
         }
       );

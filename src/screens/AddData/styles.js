@@ -5,8 +5,10 @@ export default StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 20,
-    padding: 16,
+    marginTop: 40,
+  },
+  pickerContainer: {
+    width: '80%',
   },
   button: {
     backgroundColor: '#788eec',
@@ -21,18 +23,27 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   datePicker: {
-    margin: 10,
     padding: 20,
     backgroundColor: 'white',
     flexDirection: 'row',
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: 'grey',
   },
   datePickerText: {
     fontSize: 20,
     marginLeft: 10,
   },
   typePicker: {
-    height: 100,
-    width: 300,
+    marginTop: 10,
+    padding: 20,
     backgroundColor: 'white',
+    borderWidth: 2,
+    borderColor: 'grey',
+    color: 'black',
+    fontSize: 20,
+  },
+  itemStyle: {
+    fontSize: 30,
   },
 });

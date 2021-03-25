@@ -11,18 +11,21 @@ export default function DateTime({ date, setDate }) {
   const showDatePicker = () => setIsVisible(true);
   const hideDatePicker = () => setIsVisible(false);
   const handleConfirm = date => {
-    setDate(moment(date).format('MM-DD-YYYY h:mm a'));
+    setDate(date);
     hideDatePicker();
   };
 
   return (
-    <View>
+    <View style={styles.pickerContainer}>
       <TouchableOpacity style={styles.datePicker} onPress={showDatePicker}>
         <FontAwesome name="calendar" size={24} color="black" />
-        <Text style={styles.datePickerText}>{date}</Text>
+        <Text style={styles.datePickerText}>
+          {moment(date).format('MM-DD-YYYY h:mm a')}
+        </Text>
       </TouchableOpacity>
       <DateTimePickerModal
         isVisible={isVisible}
+        date={date}
         mode="datetime"
         onConfirm={handleConfirm}
         onCancel={hideDatePicker}

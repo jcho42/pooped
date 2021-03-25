@@ -7,7 +7,9 @@ import moment from 'moment';
 
 const Item = ({ date, type }) => (
   <View style={styles.item}>
-    <Text style={styles.entry}>{moment(date.toDate()).format("MM-DD-YYYY h:mm a")} Type {type}</Text>
+    <Text style={styles.entry}>
+      {moment(date.toDate()).format('MM-DD-YYYY h:mm a')} Type {type}
+    </Text>
   </View>
 );
 
@@ -27,16 +29,16 @@ export default function TodayScreen(props) {
       .where('date', '>', startOfDay)
       .where('date', '<', endOfDay)
       .onSnapshot(
-        (querySnapshot) => {
+        querySnapshot => {
           const newEntries = [];
-          querySnapshot.forEach((doc) => {
+          querySnapshot.forEach(doc => {
             const entry = doc.data();
             entry.id = doc.id;
             newEntries.push(entry);
           });
           setDayEntries(newEntries);
         },
-        (error) => {
+        error => {
           console.log(error);
         }
       );
@@ -57,7 +59,7 @@ export default function TodayScreen(props) {
             <FlatList
               data={dayEntries}
               renderItem={renderItem}
-              keyExtractor={(item) => item.id}
+              keyExtractor={item => item.id}
             />
           </View>
         )}
