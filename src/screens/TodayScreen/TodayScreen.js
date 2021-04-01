@@ -13,8 +13,9 @@ const Item = ({ date, type }) => (
   </View>
 );
 
-export default function TodayScreen(props) {
+function TodayScreen(props) {
   const [dayEntries, setDayEntries] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const renderItem = ({ item }) => <Item {...item} />;
 
@@ -37,6 +38,7 @@ export default function TodayScreen(props) {
             newEntries.push(entry);
           });
           setDayEntries(newEntries);
+          setLoading(false);
         },
         error => {
           console.log(error);
@@ -45,6 +47,16 @@ export default function TodayScreen(props) {
   }, []);
 
   const screenTitle = moment(new Date()).format('dddd');
+
+  if (loading) {
+    return (
+      <SafeAreaView
+        style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+      >
+        <Text style={{ fontSize: 20 }}>Fetching Data...</Text>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView>
@@ -67,3 +79,5 @@ export default function TodayScreen(props) {
     </SafeAreaView>
   );
 }
+
+export default React.memo(TodayScreen);

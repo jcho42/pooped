@@ -12,8 +12,9 @@ import {
 } from 'victory-native';
 import { pieDataFunc, typeValueYear } from '../utilFunc';
 
-export default function YearScreen(props) {
+function YearScreen(props) {
   const [yearEntries, setYearEntries] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const pieData = pieDataFunc(yearEntries);
 
@@ -55,6 +56,7 @@ export default function YearScreen(props) {
             newEntries.push(entry);
           });
           setYearEntries(newEntries);
+          setLoading(false);
         },
         error => {
           console.log(error);
@@ -63,6 +65,16 @@ export default function YearScreen(props) {
   }, []);
 
   const screenTitle = moment().format('YYYY');
+
+  if (loading) {
+    return (
+      <SafeAreaView
+        style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+      >
+        <Text style={{ fontSize: 20 }}>Fetching Data...</Text>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView>
@@ -94,3 +106,5 @@ export default function YearScreen(props) {
     </SafeAreaView>
   );
 }
+
+export default React.memo(YearScreen);

@@ -12,8 +12,9 @@ import {
 } from 'victory-native';
 import { pieDataFunc, typeValueMonth } from '../utilFunc';
 
-export default function MonthScreen(props) {
+function MonthScreen(props) {
   const [monthEntries, setMonthEntries] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const pieData = pieDataFunc(monthEntries);
 
@@ -74,6 +75,7 @@ export default function MonthScreen(props) {
             newEntries.push(entry);
           });
           setMonthEntries(newEntries);
+          setLoading(false);
         },
         error => {
           console.log(error);
@@ -82,6 +84,16 @@ export default function MonthScreen(props) {
   }, []);
 
   const screenTitle = moment().format('MMMM');
+
+  if (loading) {
+    return (
+      <SafeAreaView
+        style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+      >
+        <Text style={{ fontSize: 20 }}>Fetching Data...</Text>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView>
@@ -113,3 +125,5 @@ export default function MonthScreen(props) {
     </SafeAreaView>
   );
 }
+
+export default React.memo(MonthScreen);

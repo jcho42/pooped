@@ -1,19 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import styles from './styles';
-import { login } from './loginFunc'
+import { login } from './loginFunc';
 
-export default function LoginScreen({ navigation }) {
+export default function LoginScreen({ navigation, resetIdx }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    resetIdx(0);
+  }, []);
 
   const onFooterLinkPress = () => {
     navigation.navigate('Registration');
   };
 
   const onLoginPress = () => {
-    login(email, password, navigation)
+    login(email, password, navigation);
   };
 
   return (
@@ -30,7 +34,7 @@ export default function LoginScreen({ navigation }) {
           style={styles.input}
           placeholder="E-mail"
           placeholderTextColor="#aaaaaa"
-          onChangeText={(text) => setEmail(text)}
+          onChangeText={text => setEmail(text)}
           value={email}
           autoCapitalize="none"
         />
@@ -39,7 +43,7 @@ export default function LoginScreen({ navigation }) {
           placeholderTextColor="#aaaaaa"
           secureTextEntry
           placeholder="Password"
-          onChangeText={(text) => setPassword(text)}
+          onChangeText={text => setPassword(text)}
           value={password}
           autoCapitalize="none"
         />

@@ -4,7 +4,7 @@ import styles from './styles';
 import { logout } from '../utilFunc';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function TodayScreen(props) {
+function UserScreen(props) {
   return (
     <SafeAreaView>
       <View>
@@ -15,3 +15,5 @@ export default function TodayScreen(props) {
     </SafeAreaView>
   );
 }
+
+export default React.memo(UserScreen);

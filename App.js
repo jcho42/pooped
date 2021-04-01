@@ -15,8 +15,8 @@ import {
 } from './src/screens';
 import { firebase } from './src/firebase/config';
 import { Text, View, Button, LogBox } from 'react-native';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { TabView } from 'react-native-tab-view';
 
 LogBox.ignoreLogs([
   'Setting a timer',
@@ -24,42 +24,69 @@ LogBox.ignoreLogs([
 ]);
 
 const Stack = createStackNavigator();
-const Tab = createMaterialTopTabNavigator();
 
 export default function App() {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
+  const [index, setIndex] = useState(0);
+  const [routes] = useState([
+    { key: 'today', title: 'Today' },
+    { key: 'week', title: 'Week' },
+    { key: 'month', title: 'Month' },
+    { key: 'year', title: 'Year' },
+    { key: 'user', title: 'User' },
+  ]);
+
+  const renderScene = ({ route }) => {
+    switch (route.key) {
+      case 'today':
+        return <TodayScreen user={user} />;
+      case 'week':
+        return <WeekScreen user={user} />;
+      case 'month':
+        return <MonthScreen user={user} />;
+      case 'year':
+        return <YearScreen user={user} />;
+      case 'user':
+        return <UserScreen user={user} />;
+      default:
+        return null;
+    }
+  };
 
   useEffect(() => {
     const usersRef = firebase.firestore().collection('users');
     // returns currently logged in user
-    firebase.auth().onAuthStateChanged(user => {
+    firebase.auth().onAuthStateChanged(async user => {
       if (user) {
-        usersRef
-          .doc(user.uid)
-          .get()
-          .then(document => {
-            const userData = document.data();
-            setLoading(false);
-            setUser(userData);
-          })
-          .catch(error => {
-            console.error(error);
-            setLoading(false);
-          });
+        try {
+          const document = await usersRef.doc(user.uid).get();
+          const userData = document.data();
+          setUser(userData);
+        } catch (error) {
+          console.error(error);
+        }
       } else {
         setUser(null);
-        setLoading(false);
       }
+      setLoading(false);
     });
   }, []);
 
   if (loading) {
     return (
       <SafeAreaProvider>
-        <View>
-          <Text>Loading...</Text>
-        </View>
+        <Icon
+          viewStyles={{
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+          iconStyles={{
+            width: 200,
+            height: 200,
+          }}
+        />
       </SafeAreaProvider>
     );
   }
@@ -72,7 +99,15 @@ export default function App() {
             <Stack.Screen
               name="Pooped"
               options={({ navigation }) => ({
-                headerLeft: () => <Icon />,
+                headerLeft: () => (
+                  <Icon
+                    iconStyles={{
+                      width: 50,
+                      height: 50,
+                      marginLeft: 15,
+                    }}
+                  />
+                ),
                 headerTitleAlign: 'left',
                 headerRight: () => (
                   <Button
@@ -84,36 +119,21 @@ export default function App() {
               })}
             >
               {() => (
-                <Tab.Navigator
-                  tabBarOptions={{
-                    labelStyle: { fontSize: 12 },
-                    tabStyle: { width: 75 },
-                    style: { backgroundColor: 'powderblue' },
-                  }}
-                >
-                  <Tab.Screen name="Today">
-                    {props => <TodayScreen {...props} user={user} />}
-                  </Tab.Screen>
-                  <Tab.Screen name="Week">
-                    {props => <WeekScreen {...props} user={user} />}
-                  </Tab.Screen>
-                  <Tab.Screen name="Month">
-                    {props => <MonthScreen {...props} user={user} />}
-                  </Tab.Screen>
-                  <Tab.Screen name="Year">
-                    {props => <YearScreen {...props} user={user} />}
-                  </Tab.Screen>
-                  <Tab.Screen name="User">
-                    {props => <UserScreen {...props} user={user} />}
-                  </Tab.Screen>
-                </Tab.Navigator>
+                <TabView
+                  navigationState={{ index, routes }}
+                  renderScene={renderScene}
+                  onIndexChange={setIndex}
+                  lazy
+                />
               )}
             </Stack.Screen>
             <Stack.Screen name="AddData" component={AddData} />
           </>
         ) : (
           <>
-            <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen name="Login">
+              {() => <LoginScreen resetIdx={setIndex} />}
+            </Stack.Screen>
             <Stack.Screen name="Registration" component={RegistrationScreen} />
           </>
         )}

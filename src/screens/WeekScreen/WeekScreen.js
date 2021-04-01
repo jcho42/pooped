@@ -12,8 +12,9 @@ import {
 } from 'victory-native';
 import { pieDataFunc, typeValueWeek } from '../utilFunc';
 
-export default function WeekScreen(props) {
+function WeekScreen(props) {
   const [weekEntries, setWeekEntries] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const pieData = pieDataFunc(weekEntries);
 
@@ -42,6 +43,7 @@ export default function WeekScreen(props) {
             newEntries.push(entry);
           });
           setWeekEntries(newEntries);
+          setLoading(false);
         },
         error => {
           console.log(error);
@@ -51,6 +53,16 @@ export default function WeekScreen(props) {
 
   const screenStart = moment().startOf('week').format('ddd MMM DD');
   const screenEnd = moment().endOf('week').format('ddd MMM DD');
+
+  if (loading) {
+    return (
+      <SafeAreaView
+        style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+      >
+        <Text style={{ fontSize: 20 }}>Fetching Data...</Text>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView>
@@ -84,3 +96,5 @@ export default function WeekScreen(props) {
     </SafeAreaView>
   );
 }
+
+export default React.memo(WeekScreen);
