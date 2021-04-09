@@ -9,6 +9,7 @@ import {
   VictoryChart,
   VictoryBar,
   VictoryTheme,
+  VictoryAxis,
 } from 'victory-native';
 import { pieDataFunc, typeValueWeek } from '../utilFunc';
 
@@ -79,9 +80,26 @@ function WeekScreen(props) {
               </Text>
             </View>
             <VictoryChart theme={VictoryTheme.material} domainPadding={10}>
+              <VictoryAxis
+                label="Day of the Week"
+                style={{
+                  axisLabel: { padding: 32, fontSize: 15 },
+                  tickLabels: { padding: 3 },
+                }}
+              />
+              <VictoryAxis
+                dependentAxis
+                tickValues={[1, 2, 3, 4, 5, 6, 7]}
+                label="Avg Type"
+                style={{
+                  axisLabel: { padding: 32, fontSize: 15 },
+                  tickLabels: { padding: 3 },
+                }}
+              />
               <VictoryBar
                 style={{ data: { fill: '#c43a31' } }}
                 data={barData}
+                domain={{ y: [1, 7] }}
               />
             </VictoryChart>
             <VictoryPie
