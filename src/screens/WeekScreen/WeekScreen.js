@@ -7,7 +7,7 @@ import moment from 'moment';
 import {
   VictoryPie,
   VictoryChart,
-  VictoryBar,
+  VictoryScatter,
   VictoryTheme,
   VictoryAxis,
 } from 'victory-native';
@@ -20,7 +20,7 @@ function WeekScreen(props) {
   const pieData = pieDataFunc(weekEntries);
 
   const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  const barData = daysOfWeek.map(day => {
+  const graphData = daysOfWeek.map(day => {
     const newEntry = {};
     newEntry.x = day;
     newEntry.y = typeValueWeek(weekEntries, day);
@@ -83,8 +83,10 @@ function WeekScreen(props) {
               <VictoryAxis
                 label="Day of the Week"
                 style={{
+                  axis: { stroke: 'black' },
                   axisLabel: { padding: 32, fontSize: 15 },
                   tickLabels: { padding: 3 },
+                  grid: { stroke: '#D1D1D1' },
                 }}
               />
               <VictoryAxis
@@ -92,13 +94,16 @@ function WeekScreen(props) {
                 tickValues={[1, 2, 3, 4, 5, 6, 7]}
                 label="Avg Type"
                 style={{
+                  axis: { stroke: 'black' },
                   axisLabel: { padding: 32, fontSize: 15 },
                   tickLabels: { padding: 3 },
+                  grid: { stroke: '#D1D1D1' },
                 }}
               />
-              <VictoryBar
+              <VictoryScatter
                 style={{ data: { fill: '#c43a31' } }}
-                data={barData}
+                size={5}
+                data={graphData}
                 domain={{ y: [1, 7] }}
               />
             </VictoryChart>

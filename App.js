@@ -112,10 +112,13 @@ export default function App() {
                 headerRight: () => (
                   <Button
                     onPress={() => navigation.navigate('AddData', { user })}
-                    title="Add Data"
-                    color="#000"
+                    title="New Entry"
+                    color="#421C14"
                   />
                 ),
+                headerRightContainerStyle: {
+                  marginRight: 8,
+                },
               })}
             >
               {() => (
@@ -127,7 +130,13 @@ export default function App() {
                 />
               )}
             </Stack.Screen>
-            <Stack.Screen name="AddData" component={AddData} />
+            <Stack.Screen
+              name="AddData"
+              component={AddData}
+              options={() => ({
+                title: 'New Entry',
+              })}
+            />
           </>
         ) : (
           <>

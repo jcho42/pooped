@@ -7,7 +7,7 @@ import moment from 'moment';
 import {
   VictoryPie,
   VictoryChart,
-  VictoryBar,
+  VictoryScatter,
   VictoryTheme,
   VictoryAxis,
 } from 'victory-native';
@@ -52,7 +52,7 @@ function MonthScreen(props) {
     30,
     31,
   ];
-  const barData = daysOfMonth.map(day => {
+  const graphData = daysOfMonth.map(day => {
     const newEntry = {};
     newEntry.x = day;
     newEntry.y = typeValueMonth(monthEntries, day);
@@ -112,8 +112,10 @@ function MonthScreen(props) {
               <VictoryAxis
                 label="Day of the Month"
                 style={{
+                  axis: { stroke: 'black' },
                   axisLabel: { padding: 32, fontSize: 15 },
                   tickLabels: { padding: 3 },
+                  grid: { stroke: '#D1D1D1' },
                 }}
               />
               <VictoryAxis
@@ -121,13 +123,16 @@ function MonthScreen(props) {
                 tickValues={[1, 2, 3, 4, 5, 6, 7]}
                 label="Avg Type"
                 style={{
+                  axis: { stroke: 'black' },
                   axisLabel: { padding: 32, fontSize: 15 },
                   tickLabels: { padding: 3 },
+                  grid: { stroke: '#D1D1D1' },
                 }}
               />
-              <VictoryBar
+              <VictoryScatter
                 style={{ data: { fill: '#c43a31' } }}
-                data={barData}
+                size={5}
+                data={graphData}
                 domain={{ y: [1, 7] }}
               />
             </VictoryChart>
